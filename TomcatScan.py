@@ -187,11 +187,13 @@ def deploy_godzilla_war(url, username, password, war_file_path, random_string, s
     返回:
         None
     """
-    url = clean_url(url)  # 清理 URL，确保格式正确
+    # 清理 URL，确保格式正确
+    url = clean_url(url)
+    # 获取 JSESSIONID 和 CSRF_NONCE，用于后续的上传操作
     jsessionid, csrf_nonce, file_field_name, success = get_jsessionid_and_csrf_nonce(url, username, password)
 
+    # 如果未能获取 JSESSIONID、csrf_nonce，则删除 WAR 文件
     if not success:
-        # 如果未能获取 JSESSIONID、csrf_nonce，则删除 WAR 文件
         if os.path.isfile(war_file_path):
             try:
                 os.remove(war_file_path)

@@ -60,12 +60,12 @@ class Tomcat:
         # self.forward_request = prepare_ajp_forward_request(self.target_host, self.req_uri,
         #                                                    method=AjpForwardRequest.REQUEST_METHODS.get(method))
 
+        # 准备转发请求
         self.forward_request = prepare_ajp_forward_request(self.target_host, self.req_uri,
                                                            method=REQUEST_METHODS.get(method))
 
         # 设置认证信息
         if user is not None and password is not None:
-        # ...此处为省略代码...
 
             self.forward_request.request_headers['SC_REQ_AUTHORIZATION'] = "Basic " + (
                     "%s:%s" % (user, password)).encode('base64').replace('\n', '')
