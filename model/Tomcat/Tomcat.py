@@ -77,10 +77,15 @@ class Tomcat:
             self.forward_request.attributes.append(a)
         # 发送请求并接收响应
         responses = self.forward_request.send_and_receive(self.socket, self.stream)
+        # 如果没有收到任何响应，返回None
         if len(responses) == 0:
             return None, None
+        # 第一个响应是头部信息
         snd_hdrs_res = responses[0]
+        # 中间的所有响应都是数据部分
         data_res = responses[1:-1]
+        # 如果数据部分为空，打印警告信息
         if len(data_res) == 0:
             print("No data in response. Headers:%s\n" % snd_hdrs_res.response_headers)
+        # 返回头部信息和数据部分
         return snd_hdrs_res, data_res
