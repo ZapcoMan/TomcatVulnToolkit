@@ -122,7 +122,7 @@ E:\python\Python_project\TomcatScan\
 4. 运行脚本，将会在`success.txt`文件中记录成功利用漏洞信息。
 
 ```bash
-  python TomcatScanPro.py
+  python TomcatScan.py
 ```
 
 ## 配置文件
